@@ -1,0 +1,13 @@
+.terraform
+*.tfstate*
+_testmain.go
+
+*.exe
+*.test
+*.prof
+*.pem
+terraform.tfvars
+*.chef*
+*main.tf.*
+*.tfvars.*
+*.log%
