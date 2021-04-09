@@ -1,6 +1,7 @@
 .terraform
 *.tfstate*
 _testmain.go
+.DS_Store*
 
 *.exe
 *.test
