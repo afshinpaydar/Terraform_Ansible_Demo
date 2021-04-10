@@ -1,4 +1,7 @@
-# Frankfort
+# Frankfort Environment
+
+![Terraform](Images/HomeLike_Diagram.png?raw=true "Terraform Diagram")
+
 ### Setup
 Edit AWS profile and region in the `config.tf` file.
 
