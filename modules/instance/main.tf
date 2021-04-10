@@ -69,7 +69,7 @@ resource "aws_instance" "ec2" {
 
   provisioner "local-exec" {
     command = <<EOD
-cat <<EOF > aws_hosts
+cat <<EOF > Ansible/aws_hosts
 [mongodb]
 ${self.public_ip}
 [mongodb:vars]
