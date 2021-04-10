@@ -5,10 +5,10 @@
 ### Setup
 Edit AWS profile and region in the `config.tf` file.
 
-1. cd dynamoDB
-2. terraform apply
-3. cd ..
-3. terraform apply -var-file=frankfurt.tfvars
+1. Setup DynamoDB as a locking mechanism
+2. Setup network infrastructure
+3. Configuration values
+4. Apply Terraform changes
 
 ### Tearing down
 1. 
