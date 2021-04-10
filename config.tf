@@ -3,12 +3,8 @@ terraform {
 }
 
 provider "aws" {
-  profile = "afshingolang-production"
-  region = var.region
-}
-
-variable "region" {
-  default = "us-east-1"
+  profile = var.aws_profile
+  region  = var.aws_region
 }
 
 

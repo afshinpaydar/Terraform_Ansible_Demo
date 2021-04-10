@@ -1,3 +1,5 @@
+aws_profile = "afshingolang-production"
+aws_region  = "us-east-1"
 objects = [
     {
         type                        = "sg_rule",

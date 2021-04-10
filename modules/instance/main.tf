@@ -22,12 +22,11 @@ data "aws_subnet_ids" "selected" {
   }
 }
 
-# # Following block is to avoid instance recreation.
-# data "aws_subnet" "selected" {
-#   count = 1
-
-#   id    = join("", data.aws_subnet_ids.selected.ids)
-# }
+# Following block is to avoid instance recreation.
+data "aws_subnet" "selected" {
+  count = 1
+  id    = join("", data.aws_subnet_ids.selected.ids)
+}
 
 
 resource "aws_instance" "ec2" {
@@ -35,7 +34,7 @@ resource "aws_instance" "ec2" {
   ami                         = var.instance.ami
   private_ip                  = var.instance.private_ip[count.index]
   instance_type               = var.instance.instance_type
-  subnet_id                   = "subnet-090604d28c170ae0f"
+  subnet_id                   = data.aws_subnet.selected[0].id
   key_name                    = var.instance.key_name
   monitoring                  = false
   vpc_security_group_ids      = data.aws_security_groups.selected.ids

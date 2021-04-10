@@ -21,7 +21,7 @@ locals {
 module "vpn" {
   source           = "./modules/instance/"
   instance         = local.ec2_vpn[0]
-  region           = var.region
+  region           = var.aws_region
   default_tags     = var.default_tags
 }
 output "ec2_vpn" {
@@ -34,9 +34,10 @@ locals {
 module "db" {
   source           = "./modules/instance/"
   instance         = local.ec2_db[0]
-  region           = var.region
+  region           = var.aws_region
   default_tags     = var.default_tags
 }
 output "ec2_db" {
-  value = module.vpn.ec2_node
+  value = module.db.ec2_node
 }
+
