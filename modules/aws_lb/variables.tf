@@ -11,6 +11,8 @@ variable "instance" {
     category                    = string
     count                       = number
     name                        = string
+    ports                       = map(string)
+    vpc_security_group_name     = list(string) # [vpc_security_group_name]
     internal                    = bool
     security_groups             = list(string)
     load_balancer_type          = string
@@ -25,6 +27,8 @@ variable "instance" {
     category                    = "",
     count                       = 0,
     name                        = "",
+    ports                       = {}
+    vpc_security_group_name     = [],
     internal                    = true,
     security_groups             = [],
     load_balancer_type          = "application",

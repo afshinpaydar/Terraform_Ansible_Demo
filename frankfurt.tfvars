@@ -43,7 +43,7 @@ objects = [
     {
         type                        = "ec2",
         category                    = "db",
-        count                       = 3,
+        count                       = 0,
         ami                         = "ami-013f17f36f8b1fefb",
         private_ip                  = ["172.31.21.200", "172.31.21.201", "172.31.21.202"],
         instance_type               = "t2.micro",
@@ -64,9 +64,10 @@ objects = [
     {
         type                        = "lb",
         category                    = "nginx",
-        name                        = "nginx-lb",
+        name                        = "nginx",
+        ports                        = {"HTTP": 80},
         create_elb                  = true,
-        count                       = 0,
+        count                       = 1,
         security_groups             = [],
         load_balancer_type          = "application",
         subnets                     = ["subnet-090604d28c170ae0f", "subnet-0f6353d798bf5d5fa"],
@@ -80,7 +81,8 @@ objects = [
         {
         type                        = "lb",
         category                    = "app",
-        name                        = "app-lb",
+        name                        = "app",
+        ports                       = {"HTTP": 80},
         create_elb                  = true,
         count                       = 0,
         security_groups             = [],
