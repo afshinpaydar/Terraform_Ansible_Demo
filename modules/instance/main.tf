@@ -67,22 +67,31 @@ resource "aws_instance" "ec2" {
   }
 
   provisioner "local-exec" {
-
-    command = "ls"
+    command = <<EOD
+cat <<EOF > aws_hosts
+[mongodb]
+${self.public_ip}
+[mongodb:vars]
+ansible_ssh_private_key_file: ~/.ssh/afshingolang-production.pem
+EOF
+EOD
+  }
+  provisioner "local-exec" {
+    command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts db-playbook.yml"
     on_failure  = continue
     environment = {
       name = self.tags["Name"]
     }
   }
 
-  provisioner "local-exec" {
-   command = "ls"
-   when        = destroy
-   on_failure  = continue
-   environment = {
-     name = self.tags["Name"]
-   }
-  }
+  # provisioner "local-exec" {
+  #  command = "ls"
+  #  when        = destroy
+  #  on_failure  = continue
+  #  environment = {
+  #    name = self.tags["Name"]
+  #  }
+  # }
 }
 
 # If associate_eip_address true then will Associate an EIP to instance 
