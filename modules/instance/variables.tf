@@ -13,9 +13,9 @@ variable "instance" {
     private_ip                  = list(string)
     instance_type               = string
     key_name                    = string
-    vpc_security_group_name     = list(string) # [vpc_security_group_name]
+    vpc_security_group_name     = list(string)
     count                       = number
-    subnet_name                 = string # subnet_name
+    subnet_name                 = string
     associate_eip_address       = bool
     associate_public_ip_address = bool
     disable_api_termination     = bool #EC2 Instance Termination Protection

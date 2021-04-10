@@ -70,10 +70,3 @@ module "app" {
 output "lb_app" {
   value = module.app
 }
-
-
-
-
-
-
-

@@ -6,7 +6,6 @@ data "aws_security_groups" "selected" {
     name   = "group-name"
     values = [for item in var.sg_rule : item.name]
   }
-
   tags = {
     usage = "terraform"
   }

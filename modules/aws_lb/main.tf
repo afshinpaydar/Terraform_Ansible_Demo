@@ -8,10 +8,19 @@ data "aws_security_groups" "selected" {
   }
 }
 
+data "aws_subnet_ids" "selected" {
+  vpc_id = data.aws_security_groups.selected.vpc_ids[0]
+}
+
+data "aws_subnet" "selected" {
+  for_each = data.aws_subnet_ids.selected.ids
+  id       = each.value
+}
+
 resource "aws_lb" "lb" {
   count              = var.instance.count
   name               = var.instance.name
-  subnets            = var.instance.subnets
+  subnets            = [for s in data.aws_subnet.selected : s.id]
   internal           = var.instance.internal
   security_groups    = var.instance.security_groups
   load_balancer_type = var.instance.load_balancer_type

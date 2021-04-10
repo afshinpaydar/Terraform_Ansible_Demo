@@ -1,4 +1,4 @@
-# Gather existing SGs data base on group-name and "usage = terraform" tag.
+# Gather existing SGs data base on group-name and "Name = frankfurt-sg" tag.
 # This tag is used to avoid SGs with same name.
 # Given list of SGs should be on same VPC
 data "aws_security_groups" "selected" {
@@ -6,11 +6,11 @@ data "aws_security_groups" "selected" {
     name   = "group-name"
     values = [for item in var.instance.vpc_security_group_name : item]
   }
-
   tags = {
     usage = "terraform"
   }
 }
+
 
 # Find a VPC subnet_ids by Name
 # Get first vpc_id by "data.aws_security_groups.selected.vpc_ids[0]".
@@ -25,6 +25,7 @@ data "aws_subnet_ids" "selected" {
 # Following block is to avoid instance recreation.
 data "aws_subnet" "selected" {
   count = 1
+
   id    = join("", data.aws_subnet_ids.selected.ids)
 }
 

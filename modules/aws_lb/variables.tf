@@ -18,7 +18,7 @@ variable "instance" {
     load_balancer_type          = string
     idle_timeout                = number
     tags                        = map(string) # [tags]
-    subnets                     = list(string)
+    subnet_names                = list(string)
     environment                 = string
   })
 
@@ -35,7 +35,7 @@ variable "instance" {
     idle_timeout                = 60,
     environment                 = "",
     tags                        = {},
-    subnets                     = [],
+    subnet_names                = [""],
   }
 
 }
