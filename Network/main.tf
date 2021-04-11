@@ -80,3 +80,14 @@ resource "aws_security_group" "frankfurt-sg" {
     usage = "terraform"
   }
 }
+
+resource "aws_security_group" "frankfurt-sg-lb" {
+  name        = "frankfurt-sg-lb"
+  description = "Allow HTTP access from internet to frankfurt loadbalancer"
+  vpc_id = aws_vpc.frankfurt-vpc.id
+
+  tags = {
+    Name = "frankfurt-sg-lb"
+    usage = "terraform"
+  }
+}
