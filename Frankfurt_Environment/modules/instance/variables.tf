@@ -9,6 +9,7 @@ variable "instance" {
   type = object({
     type                        = string
     category                    = string
+    db                          = string
     ami                         = string
     private_ip                  = list(string)
     instance_type               = string
@@ -31,6 +32,7 @@ variable "instance" {
   default = {
     type                        = "ec2",
     category                    = "",
+    db                          = "",
     ami                         = "",
     private_ip                  = [],
     instance_type               = "",

@@ -85,6 +85,13 @@ EOD
     }
   }
 
+  resource "null_resource" "mongodb" {
+  count = var.instance.category ? 1 : 0
+
+    provisioner "local-exec" {
+      command = "echo Hello"
+    }
+  }
   # provisioner "local-exec" {
   #  command = "ls"
   #  when        = destroy
