@@ -14,7 +14,7 @@ variable "instance" {
     ports                       = map(string)
     vpc_security_group_name     = list(string) # [vpc_security_group_name]
     internal                    = bool
-    security_groups             = list(string)
+    security_group              = string
     load_balancer_type          = string
     idle_timeout                = number
     tags                        = map(string) # [tags]
@@ -30,7 +30,7 @@ variable "instance" {
     ports                       = {}
     vpc_security_group_name     = [],
     internal                    = true,
-    security_groups             = [],
+    security_group              = "",
     load_balancer_type          = "application",
     idle_timeout                = 60,
     environment                 = "",

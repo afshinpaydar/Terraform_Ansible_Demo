@@ -17,12 +17,19 @@ data "aws_subnet" "selected" {
   id       = each.value
 }
 
+data "aws_security_group" "lb_sg" {
+  name = var.instance.security_group
+  tags = {
+    usage = "terraform"
+  }
+}
+
 resource "aws_lb" "lb" {
   count              = var.instance.count
   name               = var.instance.name
   subnets            = [for s in data.aws_subnet.selected : s.id]
   internal           = var.instance.internal
-  security_groups    = var.instance.security_groups
+  security_groups    = var.instance.internal ? [""] : [data.aws_security_group.lb_sg.id]
   load_balancer_type = var.instance.load_balancer_type
   idle_timeout       = var.instance.idle_timeout
   
@@ -37,19 +44,10 @@ resource "aws_lb" "lb" {
 resource "aws_lb_target_group" "tg" {
   count       = var.instance.count
   name        = var.instance.name
-  port        = 80
-  protocol    = "HTTP"
+  port        = var.instance.ports.port
+  protocol    = var.instance.ports.protocol
   vpc_id      = data.aws_security_groups.selected.vpc_ids[0]
   target_type = "instance"
-  health_check {
-    path                = "/"
-    port                = 80
-    healthy_threshold   = 6
-    unhealthy_threshold = 2
-    timeout             = 2
-    interval            = 5
-    matcher             = "200"  # has to be HTTP 200 or fails
-  }
   tags        = merge(
     var.instance.tags,
     var.default_tags,
@@ -59,8 +57,8 @@ resource "aws_lb_target_group" "tg" {
 resource "aws_lb_listener" "listener" {
   count              = var.instance.count
   load_balancer_arn  = element(aws_lb.lb.*.arn,0)
-  port = 80
-  protocol = "HTTP"
+  port = var.instance.ports.port
+  protocol = var.instance.ports.protocol
   default_action {
     target_group_arn = element(aws_lb_target_group.tg.*.arn, count.index)
     type = "forward"

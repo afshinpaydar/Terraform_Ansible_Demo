@@ -30,6 +30,7 @@ data "aws_subnet" "selected" {
 }
 
 
+
 resource "aws_instance" "ec2" {
   count                       = var.instance.count
   ami                         = var.instance.ami
@@ -69,7 +70,7 @@ resource "aws_instance" "ec2" {
 
   provisioner "local-exec" {
     command = <<EOD
-cat <<EOF > Ansible/aws_hosts
+cat <<EOF > ../Ansible/aws_hosts
 [mongodb]
 ${self.public_ip}
 [mongodb:vars]
@@ -78,20 +79,13 @@ EOF
 EOD
   }
   provisioner "local-exec" {
-    command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts db-playbook.yml"
+    command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts ../Ansible/db-playbook.yml"
     on_failure  = continue
     environment = {
       name = self.tags["Name"]
     }
   }
 
-  resource "null_resource" "mongodb" {
-  count = var.instance.category ? 1 : 0
-
-    provisioner "local-exec" {
-      command = "echo Hello"
-    }
-  }
   # provisioner "local-exec" {
   #  command = "ls"
   #  when        = destroy
@@ -114,3 +108,20 @@ resource "aws_eip" "assosiate" {
     {"Name" = join(".", [format("%s%02d", var.instance.category, count.index + 1), var.instance.environment])},
   )
 }
+
+
+# resource "local_file" "host_script" {
+#     filename = "./add_host.sh"
+
+#     content = <<-EOF
+#     echo "Setting SSH Key"
+#     ssh-add ~/.ssh/afshingolang-production.pem
+#     echo "Adding IPs"
+
+#     ssh-keyscan -H ${module.db[0].private_ip} >> ../Ansible/aws_hosts
+#     ssh-keyscan -H ${module.db[1].private_ip} >> ../Ansible/aws_hosts
+#     ssh-keyscan -H ${module.db[2].private_ip} >> ../Ansible/aws_hosts
+
+#     EOF
+
+# }
