@@ -9,6 +9,7 @@ _testmain.go
 *.pem
 terraform.tfvars
 .terraform
+.terraform*
 terraform.tfstate*
 .terraform.lock.hcl*
 *.chef*
