@@ -29,13 +29,10 @@ $ terraform init
 $ terraform apply
 ```
 
-### Setup
-Edit AWS profile and region in the `config.tf` file.
+# Setup Network Infra
 
-1. Setup DynamoDB as a locking mechanism
-2. Setup network infrastructure
-3. Configuration values
-4. Apply Terraform changes
+# Setup Frankfurt Infra
+
 
 ### Tearing down
 1. 
