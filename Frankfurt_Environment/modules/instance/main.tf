@@ -172,7 +172,9 @@ resource "aws_instance" "ec2" {
   }
 
   provisioner "remote-exec" {
-    inline = ["ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i inventory first.yaml"]
+    inline = ["eval $(ssh-agent -s)", 
+      "ssh-add ~/.ssh/afshingolang-production.pem",
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i inventory ~/Terraform_Ansible_Demo/Ansible/mongo-replicaset/site.yml"]
     connection {
       host        = self.public_ip
       type        = "ssh"
@@ -182,8 +184,6 @@ resource "aws_instance" "ec2" {
   }
 
 }
-
-
 
 # If associate_eip_address true then will Associate an EIP to instance 
 resource "aws_eip" "assosiate" {

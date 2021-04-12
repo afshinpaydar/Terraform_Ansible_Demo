@@ -43,6 +43,11 @@ resource "aws_instance" "mongo" {
     volume_type = var.instance.root_block_device.volume_type
     volume_size = var.instance.root_block_device.volume_size
   }
+  ebs_block_device {
+    volume_type = var.instance.ebs_block_device.volume_type
+    volume_size = var.instance.ebs_block_device.volume_size
+    device_name = var.instance.ebs_block_device.device_name
+  }
 
   volume_tags = merge(
     var.default_tags, {

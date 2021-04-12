@@ -90,6 +90,11 @@ objects = [
         root_block_device           = {
             volume_type = "gp2",
             volume_size = 8
+        },
+        ebs_block_device            = {
+          device_name = "/dev/xvdf",
+          volume_size = 10,
+          volume_type = "gp2"
         }
     },
     {
@@ -112,6 +117,11 @@ objects = [
         root_block_device           = {
             volume_type = "gp2",
             volume_size = 8
+        },
+        ebs_block_device            = {
+          device_name = "/dev/xvdf",
+          volume_size = 10,
+          volume_type = "gp2"
         }
     },
     {
@@ -134,6 +144,11 @@ objects = [
         root_block_device           = {
             volume_type = "gp2",
             volume_size = 8
+        },
+        ebs_block_device            = {
+          device_name = "/dev/xvdf",
+          volume_size = 10,
+          volume_type = "gp2"
         }
     },
     {
@@ -209,8 +224,8 @@ objects = [
         category                    = "app",
         name                        = "app",
         vpc_zone_identifier         = ["subnet-0a5157ab3f678608e", "subnet-0ac1eb29027382b06", "subnet-0df75ca162aa2be7a"],
-        min_size                    = 2,
-        max_size                    = 3,
+        min_size                    = 1,
+        max_size                    = 1,
         timeout_delete              = "10m"
         environment                 = "frankfurt"
     },

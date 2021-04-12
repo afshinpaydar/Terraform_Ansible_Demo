@@ -1,0 +1,14 @@
+- hosts: mongodb
+  remote_user: ubuntu
+  become: yes
+  roles:
+    - common
+
+# Primary replica member is expected to be first one in the group
+- hosts: mongodb[0]
+  remote_user: ubuntu
+  become: yes
+  roles:
+    - replica-set
+    - mongo-users 
+    - security

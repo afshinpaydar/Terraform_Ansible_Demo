@@ -27,6 +27,11 @@ variable "instance" {
       volume_type = string
       volume_size = number
     })
+    ebs_block_device = object({
+      volume_type = string
+      device_name = string
+      volume_size = number
+    })
   })
 
   default = {
@@ -49,6 +54,11 @@ variable "instance" {
     root_block_device = {
       volume_type = "",
       volume_size = 0
+    },
+    ebs_block_device = {
+      volume_type = "",
+      volume_size = 0,
+      device_name = ""
     }
   }
 }
