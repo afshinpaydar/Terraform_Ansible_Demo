@@ -1,4 +1,1 @@
-# Ansible ignore files
-*.retry
-ansible.cfg
-setup.json
+site.retry

@@ -1,0 +1,17 @@
+---
+- name: Create config directory
+  file: 
+    path: "~/mongodb/conf.d"
+    state: directory
+  become: no
+
+- name: Copy config of mongod
+  template: 
+    src: mongod.conf.j2
+    dest: "~/mongodb/conf.d/mongod.{{ item.name }}.conf"
+  vars:
+    name: "{{ item.name }}"
+    port: "{{ item.port }}"
+    cacheSizeGB: "{{ item.cacheSizeGB }}"
+  with_items: "{{ mongo_databases }}"
+  become: no

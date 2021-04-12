@@ -1,14 +1,33 @@
-- hosts: mongodb
-  remote_user: ubuntu
+---
+- name: Install MongoDB
+  hosts: 
+    - mongo_servers
+  remote_user: "{{ os_user }}"
   become: yes
+  become_method: sudo
+  gather_facts: no
   roles:
-    - common
+    - mongo_install
 
-# Primary replica member is expected to be first one in the group
-- hosts: mongodb[0]
-  remote_user: ubuntu
+- name: Create Config of Instances in MongoDB
+  hosts: 
+    - mongo_servers
+  remote_user: "{{ os_user }}"
   become: yes
+  become_method: sudo
+  gather_facts: no
   roles:
-    - replica-set
-    - mongo-users 
-    - security
+    - prepare_config_instances
+
+
+- name: Start Replicaset
+  hosts: 
+    - mongo_main_server
+  remote_user: "{{ os_user }}"
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  roles:
+    - replicaset
+
+

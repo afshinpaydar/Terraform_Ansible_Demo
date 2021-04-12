@@ -1,0 +1,6 @@
+{% for host in mongo_replicas %}
+  {% for db in mongo_databases %}
+    rs.add("{{ hostvars[host].inventory_hostname }}:{{ db.port }}");
+    sleep(1000);
+  {% endfor %}
+{% endfor %}
