@@ -55,14 +55,25 @@ ssh-add ~/.ssh/<ssh-keyname>.pem
 ```
 
 # Setup Network Infra
+```
+$ cd Network
+$ terraform init
+$ terraform apply
+```
 
 
 # Setup Frankfurt Infra
+```
+$ cd Frankfurt_Environment
+$ terraform apply
+$ terraform apply -var-file=frankfurt.tfvars
+```
 
 
 ### Tearing down
-1. 
-2. 
-3.
+```
+$ cd Frankfurt_Environment
+$ terraform destroy
+```
 
 

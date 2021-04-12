@@ -72,11 +72,22 @@ resource "aws_main_route_table_association" "rankfurt-rt-association" {
 # ------ Security Group
 resource "aws_security_group" "frankfurt-sg" {
   name        = "frankfurt-sg"
-  description = "Allow SSH to frankfurt environment"
+  description = "Allow Internal connectivity for frankfurt environment"
   vpc_id = aws_vpc.frankfurt-vpc.id
 
   tags = {
     Name = "frankfurt-sg"
+    usage = "terraform"
+  }
+}
+
+resource "aws_security_group" "frankfurt-sg-vpn" {
+  name        = "frankfurt-sg-vpn"
+  description = "Allow SSH to frankfurt VPN"
+  vpc_id = aws_vpc.frankfurt-vpc.id
+
+  tags = {
+    Name = "frankfurt-sg-vpn"
     usage = "terraform"
   }
 }

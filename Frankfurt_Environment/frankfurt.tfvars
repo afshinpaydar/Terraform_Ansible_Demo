@@ -10,20 +10,11 @@ objects = [
         from_port                   = 0,
         to_port                     = 0,
         protocol                    = "-1",
-        source                      = ["211.24.127.133/32"] # Office Access
-    },
-    {
-        type                        = "sg_rule",
-        name                        = "frankfurt-sg",
-        vpc_name                    = "frankfurt-vpc",
-        from_port                   = 0,
-        to_port                     = 0,
-        protocol                    = "-1",
         source                      = ["10.10.0.0/16"] # Internal traffic
     },
     {
         type                        = "sg_rule",
-        name                        = "frankfurt-sg",
+        name                        = "frankfurt-sg-vpn",
         vpc_name                    = "frankfurt-vpc",
         from_port                   = 22,
         to_port                     = 22,
@@ -57,7 +48,7 @@ objects = [
         instance_type               = "t2.micro",
         key_name                    = "afshingolang-production",
         monitoring                  = false,
-        vpc_security_group_name     = ["frankfurt-sg"],
+        vpc_security_group_name     = ["frankfurt-sg-vpn"],
         subnet_name                 = "frankfurt-subnet-1",
         environment                 = "frankfurt",
         associate_eip_address       = false,

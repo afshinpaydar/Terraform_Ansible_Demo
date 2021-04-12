@@ -139,6 +139,17 @@ resource "aws_instance" "ec2" {
   }
 
   provisioner "file" {
+    source      = "../Ansible/mongodb.yml"
+    destination = "/home/ubuntu/mongodb.yml"
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/afshingolang-production.pem")
+    }
+  }
+
+  provisioner "file" {
     source      = "../Ansible/first.yml"
     destination = "/home/ubuntu/first.yaml"
     connection {
@@ -162,19 +173,19 @@ resource "aws_instance" "ec2" {
     }
   }
 
-  provisioner "local-exec" {
-    command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i '${self.public_ip}', ../Ansible/first.yml"
-    on_failure  = continue
-    environment = {
-      name = self.tags["Name"]
-      ssh = "ssh -A ubuntu@${self.public_ip}"
-    }
-  }
+  # provisioner "local-exec" {
+  #   command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i '${self.public_ip}', ../Ansible/first.yml"
+  #   on_failure  = continue
+  #   environment = {
+  #     name = self.tags["Name"]
+  #     ssh = "ssh -A ubuntu@${self.public_ip}"
+  #   }
+  # }
 
   provisioner "remote-exec" {
     inline = ["eval $(ssh-agent -s)", 
       "ssh-add ~/.ssh/afshingolang-production.pem",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i inventory ~/Terraform_Ansible_Demo/Ansible/mongo-replicaset/site.yml"]
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  -i inventory mongodb.yml"]
     connection {
       host        = self.public_ip
       type        = "ssh"
