@@ -10,7 +10,6 @@ eval $(ssh-agent -s)
 ssh-add ~/.ssh/afshingolang-production.pem
 
 git clone https://github.com/afshinpaydar/Terraform_Ansible_Demo.git
-git clone https://github.com/JaniPM/ansible-mongo-replicaset.git
 
 echo  "eval $(ssh-agent -s)" >> ~/.bashrc
 echo "ssh-add ~/.ssh/afshingolang-production.pem" >> ~/.bashrc 
