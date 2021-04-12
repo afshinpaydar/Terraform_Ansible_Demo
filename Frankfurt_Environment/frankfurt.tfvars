@@ -73,7 +73,7 @@ objects = [
     {
         type                        = "db",
         name                        = "mongodb01",
-        ami                         = "ami-013f17f36f8b1fefb",
+        ami                         = "ami-042e8287309f5df03",
         count                       = 1,
         private_ip                  = "10.10.0.200",
         instance_type               = "t2.micro",
@@ -100,7 +100,7 @@ objects = [
     {
         type                        = "db",
         name                        = "mongodb02",
-        ami                         = "ami-013f17f36f8b1fefb",
+        ami                         = "ami-042e8287309f5df03",
         count                       = 1,
         private_ip                  = "10.10.16.201",
         instance_type               = "t2.micro",
@@ -127,7 +127,7 @@ objects = [
     {
         type                        = "db",
         name                        = "mongodb03",
-        ami                         = "ami-013f17f36f8b1fefb",
+        ami                         = "ami-042e8287309f5df03",
         count                       = 1,
         private_ip                  = "10.10.32.202",
         instance_type               = "t2.micro",
