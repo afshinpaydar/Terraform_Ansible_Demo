@@ -26,7 +26,6 @@ data "aws_security_group" "lb_sg" {
 }
 
 resource "aws_lb" "lb" {
-  count              = var.instance.count
   name               = var.instance.name
   subnets            = [for s in data.aws_subnet.selected : s.id]
   internal           = var.instance.internal
@@ -37,13 +36,12 @@ resource "aws_lb" "lb" {
   tags        = merge(
     var.instance.tags,
     var.default_tags,
-    {"Name" = join(".", [format("%s%02d", var.instance.category, count.index + 1), var.instance.environment])},
+    {"Name" = join(".", [format("%s", var.instance.category), var.instance.environment])},
   )
 }
 
 
 resource "aws_lb_target_group" "tg" {
-  count       = var.instance.count
   name        = var.instance.name
   port        = var.instance.ports.port
   protocol    = var.instance.ports.protocol
@@ -56,12 +54,11 @@ resource "aws_lb_target_group" "tg" {
 }
 
 resource "aws_lb_listener" "listener" {
-  count              = var.instance.count
   load_balancer_arn  = element(aws_lb.lb.*.arn,0)
   port = var.instance.ports.port
   protocol = var.instance.ports.protocol
   default_action {
-    target_group_arn = element(aws_lb_target_group.tg.*.arn, count.index)
+    target_group_arn = element(aws_lb_target_group.tg.*.arn, 0)
     type = "forward"
   }
 }

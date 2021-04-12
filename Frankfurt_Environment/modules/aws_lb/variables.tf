@@ -9,7 +9,6 @@ variable "instance" {
   type = object({
     type                        = string
     category                    = string
-    count                       = number
     name                        = string
     ports                       = map(string)
     vpc_security_group_name     = list(string)
@@ -25,7 +24,6 @@ variable "instance" {
   default = {
     type                        = "lb",
     category                    = "",
-    count                       = 0,
     name                        = "",
     ports                       = {}
     vpc_security_group_name     = [],

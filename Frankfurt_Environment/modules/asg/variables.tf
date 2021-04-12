@@ -7,6 +7,9 @@ variable "default_tags" {
 variable "launch_configuration" {
 }
 
+variable "target_group_arns" {
+}
+
 variable "instance" {
   type = object({
     type                       = string

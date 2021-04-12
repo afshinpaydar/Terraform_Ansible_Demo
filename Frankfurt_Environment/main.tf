@@ -145,6 +145,7 @@ module "asg_nginx" {
   region               = var.aws_region
   default_tags         = var.default_tags
   launch_configuration = module.lc_app.name
+  target_group_arns    = module.lb_nginx.id
 }
 output "asg_nginx" {
   value = module.asg_nginx
@@ -159,6 +160,7 @@ module "asg_app" {
   region               = var.aws_region
   default_tags         = var.default_tags
   launch_configuration = module.lc_nginx.name
+  target_group_arns    = module.lb_app.id
 }
 output "asg_app" {
   value = module.asg_app

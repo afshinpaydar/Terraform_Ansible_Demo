@@ -9,6 +9,9 @@ resource "aws_autoscaling_group" "asg" {
   timeouts {
     delete                = var.instance.timeout_delete
   }
+  lifecycle {
+    ignore_changes = [load_balancers, target_group_arns]
+  }
   default_cooldown        = 1800
-
+  target_group_arns         = [var.target_group_arns]
 }
