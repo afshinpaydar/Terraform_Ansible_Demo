@@ -3,10 +3,19 @@
 ![Terraform](_images/HomeLike_Diagram.png?raw=true "Terraform Diagram")
 
 # Terraform Workspace Structure
-A Terraform workspace is a collection of everything Terraform needs to run. a Terraform configuration, values for that configuration's variables, and state data to keep track of operations between runs. There are three folders for each workspace to splits Terraform codes in different section:
+A Terraform workspace is a collection of everything Terraform needs to run. a Terraform configuration, values for that configuration's variables, and state data to keep track of operations between runs. There are couple folders for each workspace to splits Terraform codes in different section:
 1.DynamoDB
 2.Network
 3.Frankfurt_Environment
+
+Terraform modules located in the `Frankfurt_Environment/modules` folder:
+```
+asg: auto scaling group
+aws-lb: load balancer
+instance: ec2
+lc: launch configuration
+sg_rule: security group rule
+```
 
 # Config AWS region and profile
 In order to connect AWS with the proper user profile and configure the region, we need to edit `Frankfurt_Environment/config.tf` file:
