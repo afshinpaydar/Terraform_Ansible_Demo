@@ -12,12 +12,12 @@ variable "instance" {
     count                       = number
     name                        = string
     ports                       = map(string)
-    vpc_security_group_name     = list(string) # [vpc_security_group_name]
+    vpc_security_group_name     = list(string)
     internal                    = bool
     security_group              = string
     load_balancer_type          = string
     idle_timeout                = number
-    tags                        = map(string) # [tags]
+    tags                        = map(string)
     subnet_names                = list(string)
     environment                 = string
   })

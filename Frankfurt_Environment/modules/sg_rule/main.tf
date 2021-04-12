@@ -8,6 +8,7 @@ data "aws_security_groups" "selected" {
   }
   tags = {
     usage = "terraform"
+    Name  = var.sg_rule[count.index].name
   }
 }
 

@@ -3,6 +3,10 @@ locals {
 }
 
 locals {
+  db_cats = [ for item in var.objects : item if item.type == "db" ]
+}
+
+locals {
   lb_cats = [ for item in var.objects : item if item.type == "lb" ]
 }
 
@@ -41,16 +45,42 @@ output "ec2_vpn" {
 }
 
 locals {
-  ec2_db = [ for item in local.cats : item if item.category == "db" ]
+  mongo_db_01 = [ for item in local.db_cats : item if item.name == "mongodb01" ]
 }
-module "ec2_db" {
-  source           = "./modules/instance/"
-  instance         = local.ec2_db[0]
+module "mongodb_1" {
+  source           = "./modules/mongodb/"
+  instance         = local.mongo_db_01[0]
   region           = var.aws_region
   default_tags     = var.default_tags
 }
-output "ec2_db" {
-  value = module.ec2_db.ec2_node
+output "mongodb_1" {
+  value = module.mongodb_1
+}
+
+locals {
+  mongo_db_02 = [ for item in local.db_cats : item if item.name == "mongodb02" ]
+}
+module "mongodb_2" {
+  source           = "./modules/mongodb/"
+  instance         = local.mongo_db_02[0]
+  region           = var.aws_region
+  default_tags     = var.default_tags
+}
+output "mongodb_2" {
+  value = module.mongodb_2
+}
+
+locals {
+  mongo_db_03 = [ for item in local.db_cats : item if item.name == "mongodb03" ]
+}
+module "mongodb_3" {
+  source           = "./modules/mongodb/"
+  instance         = local.mongo_db_03[0]
+  region           = var.aws_region
+  default_tags     = var.default_tags
+}
+output "mongodb_3" {
+  value = module.mongodb_3
 }
 
 locals {

@@ -29,12 +29,10 @@ data "aws_subnet" "selected" {
   id    = join("", data.aws_subnet_ids.selected.ids)
 }
 
-
-
-resource "aws_instance" "ec2" {
-  count                       = var.instance.count
+resource "aws_instance" "mongo" {
+  count                       = var.instance.count == 1 ? 1 : 0
   ami                         = var.instance.ami
-  private_ip                  = var.instance.private_ip[count.index]
+  private_ip                  = var.instance.private_ip
   instance_type               = var.instance.instance_type
   subnet_id                   = data.aws_subnet.selected[0].id
   key_name                    = var.instance.key_name
@@ -48,14 +46,14 @@ resource "aws_instance" "ec2" {
 
   volume_tags = merge(
     var.default_tags, {
-      "Name" = join(".", [format("%s%02d", var.instance.category, count.index + 1), var.instance.environment])
+      "Name" = join(".", [format("%s", var.instance.name), var.instance.environment])
     },
   )
 
   tags        = merge(
     var.instance.tags,
     var.default_tags,
-    {"Name" = join(".", [format("%s%02d", var.instance.category, count.index + 1), var.instance.environment])},
+    {"Name" = join(".", [format("%s", var.instance.name), var.instance.environment])},
   )
 
   lifecycle {
@@ -68,6 +66,16 @@ resource "aws_instance" "ec2" {
     ]
   }
 
+#   provisioner "local-exec" {
+#     command = <<EOD
+# cat <<EOF > ../Ansible/aws_hosts
+# [mongodb]
+# ${self.public_ip}
+# [mongodb:vars]
+# ansible_ssh_private_key_file: ~/.ssh/afshingolang-production.pem
+# EOF
+# EOD
+#   }
   provisioner "local-exec" {
     command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts ../Ansible/db-playbook.yml"
     on_failure  = continue
@@ -86,18 +94,7 @@ resource "aws_instance" "ec2" {
   # }
 }
 
-# If associate_eip_address true then will Associate an EIP to instance 
-resource "aws_eip" "assosiate" {
-  count    = var.instance.associate_eip_address ? var.instance.count : 0
 
-  instance = aws_instance.ec2[count.index].id
-
-  tags = merge(
-    var.instance.tags,
-    var.default_tags,
-    {"Name" = join(".", [format("%s%02d", var.instance.category, count.index + 1), var.instance.environment])},
-  )
-}
 
 
 # resource "local_file" "host_script" {

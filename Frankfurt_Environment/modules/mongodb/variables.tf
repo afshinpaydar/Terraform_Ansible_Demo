@@ -8,15 +8,14 @@ variable "default_tags" {
 variable "instance" {
   type = object({
     type                        = string
-    category                    = string
-    db                          = string
+    count                       = number
+    name                        = string
     ami                         = string
-    private_ip                  = list(string)
+    private_ip                  = string
     instance_type               = string
     key_name                    = string
     monitoring                  = bool
     vpc_security_group_name     = list(string)
-    count                       = number
     subnet_name                 = string
     associate_eip_address       = bool
     associate_public_ip_address = bool
@@ -32,15 +31,14 @@ variable "instance" {
 
   default = {
     type                        = "ec2",
-    category                    = "",
-    db                          = "",
+    count                       = 0,
+    name                        = "",
     ami                         = "",
-    private_ip                  = [],
+    private_ip                  = "",
     instance_type               = "",
     key_name                    = "",
     vpc_security_group_name     = [],
     monitoring                  = false,
-    count                       = 0,
     subnet_name                 = "",
     associate_eip_address       = false,
     associate_public_ip_address = true,

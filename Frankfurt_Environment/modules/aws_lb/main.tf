@@ -21,6 +21,7 @@ data "aws_security_group" "lb_sg" {
   name = var.instance.security_group
   tags = {
     usage = "terraform"
+    Name  = var.instance.security_group
   }
 }
 
@@ -29,7 +30,7 @@ resource "aws_lb" "lb" {
   name               = var.instance.name
   subnets            = [for s in data.aws_subnet.selected : s.id]
   internal           = var.instance.internal
-  security_groups    = var.instance.internal ? [""] : [data.aws_security_group.lb_sg.id]
+  security_groups    = [data.aws_security_group.lb_sg.id] == var.instance.internal ? [data.aws_security_group.lb_sg.id] : null
   load_balancer_type = var.instance.load_balancer_type
   idle_timeout       = var.instance.idle_timeout
   
