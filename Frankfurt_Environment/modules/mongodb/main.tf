@@ -76,13 +76,13 @@ resource "aws_instance" "mongo" {
 # EOF
 # EOD
 #   }
-  provisioner "local-exec" {
-    command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts ../Ansible/db-playbook.yml"
-    on_failure  = continue
-    environment = {
-      name = self.tags["Name"]
-    }
-  }
+  # provisioner "local-exec" {
+  #   command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts ../Ansible/db-playbook.yml"
+  #   on_failure  = continue
+  #   environment = {
+  #     name = self.tags["Name"]
+  #   }
+  # }
 
   # provisioner "local-exec" {
   #  command = "ls"

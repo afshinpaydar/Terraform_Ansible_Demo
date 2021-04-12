@@ -9,6 +9,8 @@ resource "aws_autoscaling_group" "asg" {
   timeouts {
     delete                = var.instance.timeout_delete
   }
+  # because we're using target_group_arns
+  # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
   lifecycle {
     ignore_changes = [load_balancers, target_group_arns]
   }

@@ -37,8 +37,25 @@ $ cd DynamoDB
 $ terraform init
 $ terraform apply
 ```
+# Generate AWS Key pairs and add it to ssh-agent
+1. Create new AWS key or import your own ssh key to AWS by following this (document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+2. Change key name in Terraform code:
+```
+$ cd Terraform_Ansible_Demo
+$ export AWS_KEY_NAME= <Name of Amazon EC2 key pairs>
+MAC:
+gsed -i 's/key_name                    = "afshingolang-production",/key_name                    = \"$AWS_KEY_NAME\",/g' ./*
+
+Linux:
+sed -i 's/key_name                    = "afshingolang-production",/key_name                    = \"$AWS_KEY_NAME\",/g' ./*
+```
+3. Add ssh key to ssh-agent:
+```
+ssh-add ~/.ssh/<ssh-keyname>.pem
+```
 
 # Setup Network Infra
+
 
 # Setup Frankfurt Infra
 

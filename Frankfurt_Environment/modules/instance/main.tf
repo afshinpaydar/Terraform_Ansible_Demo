@@ -25,10 +25,55 @@ data "aws_subnet_ids" "selected" {
 # Following block is to avoid instance recreation.
 data "aws_subnet" "selected" {
   count = 1
-
   id    = join("", data.aws_subnet_ids.selected.ids)
 }
 
+resource "aws_iam_role" "s3_role" {
+  name = "s3_role"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+  tags = {
+    usage = "terraform"
+  }
+}
+
+
+resource "aws_iam_instance_profile" "s3_access_profile" {
+  name = "s3_access_profile"
+  role = aws_iam_role.s3_role.name
+}
+
+resource "aws_iam_role_policy" "s3_policy" {
+  name = "s3_policy"
+  role = aws_iam_role.s3_role.name
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
 
 
 resource "aws_instance" "ec2" {
@@ -37,6 +82,7 @@ resource "aws_instance" "ec2" {
   private_ip                  = var.instance.private_ip[count.index]
   instance_type               = var.instance.instance_type
   subnet_id                   = data.aws_subnet.selected[0].id
+  iam_instance_profile        = aws_iam_instance_profile.s3_access_profile.name
   key_name                    = var.instance.key_name
   monitoring                  = var.instance.monitoring
   vpc_security_group_ids      = data.aws_security_groups.selected.ids
@@ -68,23 +114,76 @@ resource "aws_instance" "ec2" {
     ]
   }
 
-  provisioner "local-exec" {
-    command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts ../Ansible/db-playbook.yml"
-    on_failure  = continue
-    environment = {
-      name = self.tags["Name"]
+
+
+  provisioner "file" {
+    source      = "../Ansible/inventory"
+    destination = "/home/ubuntu/inventory"
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/afshingolang-production.pem")
     }
   }
 
-  # provisioner "local-exec" {
-  #  command = "ls"
-  #  when        = destroy
-  #  on_failure  = continue
-  #  environment = {
-  #    name = self.tags["Name"]
-  #  }
-  # }
+  provisioner "file" {
+    source      = "../Ansible/script.sh"
+    destination = "/tmp/script.sh"
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/afshingolang-production.pem")
+    }
+  }
+
+  provisioner "file" {
+    source      = "../Ansible/first.yml"
+    destination = "/home/ubuntu/first.yaml"
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/afshingolang-production.pem")
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh",
+    ]
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/afshingolang-production.pem")
+    }
+  }
+
+  provisioner "local-exec" {
+    command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i '${self.public_ip}', ../Ansible/first.yml"
+    on_failure  = continue
+    environment = {
+      name = self.tags["Name"]
+      ssh = "ssh -A ubuntu@${self.public_ip}"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = ["ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i inventory first.yaml"]
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/afshingolang-production.pem")
+    }
+  }
+
 }
+
+
 
 # If associate_eip_address true then will Associate an EIP to instance 
 resource "aws_eip" "assosiate" {
@@ -98,20 +197,3 @@ resource "aws_eip" "assosiate" {
     {"Name" = join(".", [format("%s%02d", var.instance.category, count.index + 1), var.instance.environment])},
   )
 }
-
-
-# resource "local_file" "host_script" {
-#     filename = "./add_host.sh"
-
-#     content = <<-EOF
-#     echo "Setting SSH Key"
-#     ssh-add ~/.ssh/afshingolang-production.pem
-#     echo "Adding IPs"
-
-#     ssh-keyscan -H ${module.db[0].private_ip} >> ../Ansible/aws_hosts
-#     ssh-keyscan -H ${module.db[1].private_ip} >> ../Ansible/aws_hosts
-#     ssh-keyscan -H ${module.db[2].private_ip} >> ../Ansible/aws_hosts
-
-#     EOF
-
-# }

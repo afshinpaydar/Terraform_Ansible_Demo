@@ -51,10 +51,9 @@ objects = [
     {
         type                        = "ec2",
         category                    = "vpn",
-        db                          = false
         count                       = 1,
         ami                         = "ami-013f17f36f8b1fefb",
-        private_ip                  = ["10.10.0.100", "10.10.0.101", "10.10.0.102"],
+        private_ip                  = ["10.10.0.100"],
         instance_type               = "t2.micro",
         key_name                    = "afshingolang-production",
         monitoring                  = false,
@@ -93,7 +92,7 @@ objects = [
             volume_size = 8
         }
     },
-        {
+    {
         type                        = "db",
         name                        = "mongodb02",
         ami                         = "ami-013f17f36f8b1fefb",
@@ -115,7 +114,7 @@ objects = [
             volume_size = 8
         }
     },
-        {
+    {
         type                        = "db",
         name                        = "mongodb03",
         ami                         = "ami-013f17f36f8b1fefb",
@@ -158,7 +157,7 @@ objects = [
         type                        = "lb",
         category                    = "app",
         name                        = "app",
-        security_group             = "frankfurt-sg",
+        security_group              = "frankfurt-sg",
         load_balancer_type          = "network",
         internal                    = true,
         idle_timeout                = 60,
