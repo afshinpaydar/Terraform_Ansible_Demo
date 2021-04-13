@@ -31,6 +31,17 @@
       },
       {
          "type": "file",
+         "source": "./node-conf/run_node.sh",
+         "destination": "/tmp/run_node.sh"
+       },
+       {
+         "type":"shell",
+         "inline":[
+            "sudo cp /tmp/run_node.sh /etc/cron.d"
+         ]
+      },
+      {
+         "type": "file",
          "source": "./node-conf/script.sh",
          "destination": "~/app/script.sh"
        },
