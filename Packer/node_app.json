@@ -31,27 +31,26 @@
       },
       {
          "type": "file",
-         "source": "./node-conf/run_node.sh",
-         "destination": "/tmp/run_node.sh"
-       },
-       {
-         "type":"shell",
-         "inline":[
-            "sudo cp /tmp/run_node.sh /etc/cron.d"
-         ]
-      },
-      {
-         "type": "file",
          "source": "./node-conf/script.sh",
          "destination": "~/app/script.sh"
        },
+      {
+         "type": "file",
+         "source": "./node-conf/node_app.service",
+         "destination": "~/node_app.service"
+       },
        {
          "type":"shell",
          "inline":[
-            "(crontab -l 2>/dev/null; echo '@reboot ~/app/script.sh ') | crontab -"
+            "sudo cp ~/node_app.service /etc/systemd/system/node_app.service"
+         ]
+      },
+       {
+         "type":"shell",
+         "inline":[
+            "sudo systemctl daemon-reload && sudo systemctl enable node_app.service"
          ]
       }
-
-       
+ 
    ]
 }

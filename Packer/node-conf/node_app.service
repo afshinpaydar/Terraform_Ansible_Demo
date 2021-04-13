@@ -1,0 +1,20 @@
+[Unit]
+Description=Simple nodejs App
+After=network.target
+
+[Service]
+# User=spark
+# Type=simple
+PIDFile=/run/node-app-service.pid
+ExecStart=/home/ubuntu/app/script.sh start
+ExecReload=/home/ubuntu/app/script.sh reload
+ExecStop=/home/ubuntu/app/script stop
+TimeoutSec=30
+# Restart=on-failure
+# RestartSec=30
+# StartLimitInterval=350
+# StartLimitBurst=10
+
+[Install]
+WantedBy=multi-user.target
+
