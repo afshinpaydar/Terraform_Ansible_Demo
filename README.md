@@ -1,6 +1,6 @@
 # Frankfort Environment
 
-![Terraform](_images/HomeLike_Diagram.png?raw=true "Terraform Diagram")
+![Terraform](_images/HomeLikeDiagram.png?raw=true "Terraform Diagram")
 
 # Terraform Workspace Structure
 A Terraform workspace is a collection of everything Terraform needs to run. a Terraform configuration, values for that configuration's variables, and state data to keep track of operations between runs. There are couple folders for each workspace to splits Terraform codes in different section:
