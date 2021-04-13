@@ -38,7 +38,7 @@ $ terraform init
 $ terraform apply
 ```
 # Generate AWS Key pairs and add it to ssh-agent
-1. Create new AWS key or import your own ssh key to AWS by following this (document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+1. Create new AWS key or import your own ssh key to AWS by following this [document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
 named `terraform`
 ```
 ssh-keygen -t rsa -m PEM
