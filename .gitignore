@@ -2,6 +2,10 @@
 *.tfstate*
 _testmain.go
 .DS_Store*
+.SSH_KEY/terraform.pem*
+terraform.pem*
+.SSH_KEY/*
+
 
 *.exe
 *.test
