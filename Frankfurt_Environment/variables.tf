@@ -11,7 +11,7 @@ variable "aws_profile" {
 }
 
 variable "private_key" {
-  default = "./.SSH_KEY/terraform.pem"  
+  default = "../.SSH_KEY/terraform.pem"  
 }
 
 variable "default_tags" {

@@ -71,49 +71,4 @@ resource "aws_instance" "mongo" {
     ]
   }
 
-#   provisioner "local-exec" {
-#     command = <<EOD
-# cat <<EOF > ../Ansible/aws_hosts
-# [mongodb]
-# ${self.public_ip}
-# [mongodb:vars]
-# ansible_ssh_private_key_file: ~/.ssh/afshingolang-production.pem
-# EOF
-# EOD
-#   }
-  # provisioner "local-exec" {
-  #   command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ansible-playbook -i aws_hosts ../Ansible/db-playbook.yml"
-  #   on_failure  = continue
-  #   environment = {
-  #     name = self.tags["Name"]
-  #   }
-  # }
-
-  # provisioner "local-exec" {
-  #  command = "ls"
-  #  when        = destroy
-  #  on_failure  = continue
-  #  environment = {
-  #    name = self.tags["Name"]
-  #  }
-  # }
 }
-
-
-
-
-# resource "local_file" "host_script" {
-#     filename = "./add_host.sh"
-
-#     content = <<-EOF
-#     echo "Setting SSH Key"
-#     ssh-add ~/.ssh/afshingolang-production.pem
-#     echo "Adding IPs"
-
-#     ssh-keyscan -H ${module.db[0].private_ip} >> ../Ansible/aws_hosts
-#     ssh-keyscan -H ${module.db[1].private_ip} >> ../Ansible/aws_hosts
-#     ssh-keyscan -H ${module.db[2].private_ip} >> ../Ansible/aws_hosts
-
-#     EOF
-
-# }

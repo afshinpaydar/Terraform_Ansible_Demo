@@ -139,8 +139,8 @@ resource "aws_instance" "ec2" {
   }
 
   provisioner "file" {
-    source      = "../Ansible/mongodb.yml"
-    destination = "/home/ubuntu/mongodb.yml"
+    source      = "../Ansible/site.yml"
+    destination = "/home/ubuntu/site.yml"
     connection {
       host        = self.public_ip
       type        = "ssh"
@@ -149,16 +149,6 @@ resource "aws_instance" "ec2" {
     }
   }
 
-  provisioner "file" {
-    source      = "../Ansible/first.yml"
-    destination = "/home/ubuntu/first.yaml"
-    connection {
-      host        = self.public_ip
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file(var.private_key)
-    }
-  }
 
   provisioner "remote-exec" {
     inline = [
@@ -176,7 +166,7 @@ resource "aws_instance" "ec2" {
   provisioner "remote-exec" {
     inline = ["eval $(ssh-agent -s)", 
       "ssh-add ~/.ssh/terraform.pem",
-      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  -i inventory mongodb.yml"]
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  -i inventory site.yml"]
     connection {
       host        = self.public_ip
       type        = "ssh"
