@@ -18,7 +18,7 @@ sg_rule: security group rule
 ```
 
 # Config AWS region and profile
-In order to connect AWS with the proper user profile and configure the region, we need to edit `Frankfurt_Environment/config.tf` file:
+In order to connect AWS with the proper user profile and aws region, It's needed to edit `Frankfurt_Environment/config.tf` file:
 ```
 variable "aws_region" {
   default = "us-east-1"
@@ -30,7 +30,7 @@ variable "aws_profile" {
 ```
 
 # Terraform state Management
-In order to prevent interference of running multiple Terraform code in separate machines, we use Dynamodb  and S3 as a locking mechanism to save terraform-lock file. before setup terraform infrastructure we need to implement S3 and Dynamodb components:
+In order to prevent interference of running multiple Terraform code in separate machines, I used Dynamodb  and S3 as a locking mechanism to save terraform-lock file. before setup terraform infrastructure we need to implement S3 and Dynamodb components:
 ```
 $ git clone 
 $ cd DynamoDB
@@ -60,8 +60,8 @@ app lauch configuration:
 ```
 
 # Generate AWS Key pairs and add it to ssh-agent
-1. Create new AWS key or import your own ssh key to AWS by following this [document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
-named `terraform`
+1. Create a new AWS key or import your own ssh key to AWS by following this [document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+named `terraform` and save it (private and public parts) in the `Frankfurt_Environment/.SSH_KEY/` folder:
 ```
 ssh-keygen -t rsa -m PEM
 Generating public/private rsa key pair.
@@ -72,7 +72,7 @@ Enter file in which to save the key (~/.ssh/id_rsa): Frankfurt_Environment/.SSH_
 ssh-add Frankfurt_Environment/.SSH_KEY/terraform.pem
 ```
 3. Upload private key to S3 bucket named `ssh-key-frankfurt`
-4. Change name of your AWS profile in the `Frankfurt_Environment/variables.tf` and `../Frankfurt_Environment/frankfurt.tfvars` files:
+4. Change the name of your AWS profile in the `Frankfurt_Environment/variables.tf` and `../Frankfurt_Environment/frankfurt.tfvars` files:
 ```
 variable "aws_profile" {
   default = "YOUR-AWS-PROFILE-NAME"
