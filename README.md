@@ -103,4 +103,3 @@ $ terraform destroy
 
 ###  Ansible galaxy:
 - https://github.com/UnderGreen/ansible-role-mongodb
-- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template
