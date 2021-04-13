@@ -157,7 +157,7 @@ objects = [
             "protocol"  = "HTTP",
             "port"      = 80
         },
-        tags                        = {},
+        tags                        = {"loadbalancer":"nginx"},
     },
         {
         type                        = "lb",
@@ -172,9 +172,9 @@ objects = [
         environment                 = "frankfurt",
         ports                       = {
             "protocol"  = "TCP",
-            "port"      = 80
+            "port"      = 3000
         },
-        tags                        = {},
+        tags                        = {"loadbalancer":"app"},
     },
     {
         type                        = "lc",
