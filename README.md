@@ -39,19 +39,24 @@ $ terraform apply
 ```
 # Generate AWS Key pairs and add it to ssh-agent
 1. Create new AWS key or import your own ssh key to AWS by following this (document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
-2. Change key name in Terraform code:
+named `terraform`
 ```
-$ cd Terraform_Ansible_Demo
-$ export AWS_KEY_NAME= <Name of Amazon EC2 key pairs>
-MAC:
-gsed -i 's/key_name                    = "afshingolang-production",/key_name                    = \"$AWS_KEY_NAME\",/g' ./*
-
-Linux:
-sed -i 's/key_name                    = "afshingolang-production",/key_name                    = \"$AWS_KEY_NAME\",/g' ./*
+ssh-keygen -t rsa -m PEM
+Generating public/private rsa key pair.
+Enter file in which to save the key (~/.ssh/id_rsa): Frankfurt_Environment/.SSH_KEY/terraform.pem
 ```
-3. Add ssh key to ssh-agent:
+2. Add ssh key to ssh-agent:
 ```
-ssh-add ~/.ssh/<ssh-keyname>.pem
+ssh-add Frankfurt_Environment/.SSH_KEY/terraform.pem
+```
+3. Upload private key to S3 bucket named `ssh-key-frankfurt`
+4. Change name of your AWS profile in the `Frankfurt_Environment/variables.tf` and `../Frankfurt_Environment/frankfurt.tfvars` files:
+```
+variable "aws_profile" {
+  default = "YOUR-AWS-PROFILE-NAME"
+}
+---
+aws_profile = "YOUR-AWS-PROFILE-NAME"
 ```
 
 # Setup Network Infra
@@ -61,14 +66,12 @@ $ terraform init
 $ terraform apply
 ```
 
-
 # Setup Frankfurt Infra
 ```
 $ cd Frankfurt_Environment
 $ terraform apply
 $ terraform apply -var-file=frankfurt.tfvars
 ```
-
 
 ### Tearing down
 ```

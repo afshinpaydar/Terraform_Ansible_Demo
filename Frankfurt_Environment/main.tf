@@ -39,6 +39,7 @@ module "ec2_vpn" {
   instance         = local.ec2_vpn[0]
   region           = var.aws_region
   default_tags     = var.default_tags
+  private_key      = var.private_key
 }
 output "ec2_vpn" {
   value = module.ec2_vpn.ec2_node

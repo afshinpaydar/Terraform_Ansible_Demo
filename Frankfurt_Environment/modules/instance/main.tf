@@ -123,7 +123,7 @@ resource "aws_instance" "ec2" {
       host        = self.public_ip
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/afshingolang-production.pem")
+      private_key = file(var.private_key)
     }
   }
 
@@ -134,7 +134,7 @@ resource "aws_instance" "ec2" {
       host        = self.public_ip
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/afshingolang-production.pem")
+      private_key = file(var.private_key)
     }
   }
 
@@ -145,7 +145,7 @@ resource "aws_instance" "ec2" {
       host        = self.public_ip
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/afshingolang-production.pem")
+      private_key = file(var.private_key)
     }
   }
 
@@ -156,7 +156,7 @@ resource "aws_instance" "ec2" {
       host        = self.public_ip
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/afshingolang-production.pem")
+      private_key = file(var.private_key)
     }
   }
 
@@ -169,28 +169,19 @@ resource "aws_instance" "ec2" {
       host        = self.public_ip
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/afshingolang-production.pem")
+      private_key = file(var.private_key)
     }
   }
 
-  # provisioner "local-exec" {
-  #   command = "aws ec2 wait instance-status-ok --instance-ids ${self.id} && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i '${self.public_ip}', ../Ansible/first.yml"
-  #   on_failure  = continue
-  #   environment = {
-  #     name = self.tags["Name"]
-  #     ssh = "ssh -A ubuntu@${self.public_ip}"
-  #   }
-  # }
-
   provisioner "remote-exec" {
     inline = ["eval $(ssh-agent -s)", 
-      "ssh-add ~/.ssh/afshingolang-production.pem",
+      "ssh-add ~/.ssh/terraform.pem",
       "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  -i inventory mongodb.yml"]
     connection {
       host        = self.public_ip
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("~/.ssh/afshingolang-production.pem")
+      private_key = file(var.private_key)
     }
   }
 

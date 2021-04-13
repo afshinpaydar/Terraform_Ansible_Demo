@@ -4,6 +4,8 @@ variable "region" {
 variable "default_tags" {
 }
 
+variable "private_key" {
+}
 
 variable "instance" {
   type = object({
