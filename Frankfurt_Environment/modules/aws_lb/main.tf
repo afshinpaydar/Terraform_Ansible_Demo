@@ -32,7 +32,6 @@ resource "aws_lb" "lb" {
   security_groups    = [data.aws_security_group.lb_sg.id] == var.instance.internal ? [data.aws_security_group.lb_sg.id] : null
   load_balancer_type = var.instance.load_balancer_type
   idle_timeout       = var.instance.idle_timeout
-  
   tags        = merge(
     var.instance.tags,
     var.default_tags,

@@ -37,6 +37,28 @@ $ cd DynamoDB
 $ terraform init
 $ terraform apply
 ```
+# Prepare AMI Images (nginx, nodejs app)
+```
+$ cd Packer
+$ packer validate nginx.json
+$ packer validate nginx.json
+```
+Update image id (ami) in the `Frankfurt_Environment/frankfurt.tfvars` file for launch configuration (nginx and app):
+```
+nginx lauch configuration:
+        type                        = "lc",
+        category                    = "nginx",
+        name                        = "nginx",
+        ami                         = "ami-013f17f36f8b1fefb",
+        instance_type               = "t2.micro",
+
+app lauch configuration:
+        type                        = "lc",
+        category                    = "app",
+        name                        = "app",
+        ami                         = "ami-013f17f36f8b1fefb",
+```
+
 # Generate AWS Key pairs and add it to ssh-agent
 1. Create new AWS key or import your own ssh key to AWS by following this [document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
 named `terraform`
@@ -81,4 +103,4 @@ $ terraform destroy
 
 ###  Ansible galaxy:
 - https://github.com/UnderGreen/ansible-role-mongodb
-
+- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template

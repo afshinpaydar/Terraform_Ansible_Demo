@@ -1,0 +1,44 @@
+{
+   "variables":{
+      "aws_access_key":"{{env `AWS_ACCESS_KEY_ID`}}",
+      "aws_secret_access_key":"{{env `AWS_SECRET_ACCESS_KEY`}}"
+   },
+   "builders":[
+      {
+         "type":"amazon-ebs",
+         "access_key":"{{user `aws_access_key`}}",
+         "secret_key":"{{user `aws_secret_access_key`}}",
+         "region":"us-east-1",
+         "source_ami":"ami-013f17f36f8b1fefb",
+         "instance_type":"t2.micro",
+         "ssh_username":"ubuntu",
+         "ami_name":"ubuntu_18_nginx_packer_{{timestamp}}"
+      }
+   ],
+   "provisioners":[
+      {
+         "type":"shell",
+         "inline":[
+            "sudo apt-get update -y",
+            "sudo apt-get install -y nginx"
+         ]
+      },
+      {
+         "type": "file",
+         "source": "./nginx-conf/nginx.conf",
+         "destination": "/tmp/nginx.conf"
+       },
+       {
+         "type":"shell",
+         "inline":[
+            "sudo cp /tmp/nginx.conf /etc/nginx/nginx.conf"
+         ]
+      },
+       {
+         "type": "shell",
+         "inline": [
+           "sudo systemctl enable nginx"
+         ]
+       }
+   ]
+}
