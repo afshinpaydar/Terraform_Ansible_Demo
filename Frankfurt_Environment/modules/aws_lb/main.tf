@@ -42,7 +42,7 @@ resource "aws_lb" "lb" {
 
 resource "aws_lb_target_group" "tg" {
   name        = var.instance.name
-  port        = var.instance.ports.port
+  port        = 80
   protocol    = var.instance.ports.protocol
   vpc_id      = data.aws_security_groups.selected.vpc_ids[0]
   target_type = "instance"
