@@ -53,11 +53,33 @@ resource "aws_lb_target_group" "tg" {
 }
 
 resource "aws_lb_listener" "listener" {
-  load_balancer_arn  = element(aws_lb.lb.*.arn,0)
-  port = 80
+  load_balancer_arn   = element(aws_lb.lb.*.arn,0)
+  port                = 80
   protocol = var.instance.ports.protocol
   default_action {
-    target_group_arn = element(aws_lb_target_group.tg.*.arn, 0)
-    type = "forward"
+    target_group_arn  = element(aws_lb_target_group.tg.*.arn, 0)
+    type              = "forward"
   }
+}
+
+resource "local_file" "foo" {
+  content     = aws_lb.lb.dns_name
+  filename    =  var.instance.name == "nginx" ? "/tmp/loadbalancer-dns-names-nginx.txt" : "/tmp/loadbalancer-dns-names-app.txt"
+}
+
+resource "aws_s3_bucket" "loadbalancer_dns_names" {
+  bucket   = "frankfurt-loadbalancer-dns-names"
+  acl      = "private"
+}
+
+resource "aws_s3_bucket_object" "lb_dns_name_nginx" {
+  key        = "nginx-dns-name"
+  bucket     = aws_s3_bucket.loadbalancer_dns_names.id
+  source     = "/tmp/loadbalancer-dns-names-nginx.txt"
+}
+
+resource "aws_s3_bucket_object" "lb_dns_name_app" {
+  key        = "app-dns-name"
+  bucket     = aws_s3_bucket.loadbalancer_dns_names.id
+  source     = "/tmp/loadbalancer-dns-names-app.txt"
 }
