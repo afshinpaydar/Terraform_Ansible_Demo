@@ -40,8 +40,8 @@ $ terraform apply
 # Prepare AMI Images (nginx, nodejs app)
 ```
 $ cd Packer
-$ packer validate nginx.json
-$ packer validate nginx.json
+$ packer build nginx.json
+$ packer build node_app.json
 ```
 Update image id (ami) in the `Frankfurt_Environment/frankfurt.tfvars` file for launch configuration (nginx and app):
 ```
