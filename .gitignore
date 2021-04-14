@@ -15,3 +15,5 @@ terraform.tfstate*
 *main.tf.*
 *.tfvars.*
 *.log%
+loadbalancer-dns-names-nginx.txt
+loadbalancer-dns-names-app.txt
