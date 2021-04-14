@@ -75,11 +75,11 @@ resource "aws_s3_bucket" "loadbalancer_dns_names" {
 resource "aws_s3_bucket_object" "lb_dns_name_nginx" {
   key        = "nginx-dns-name"
   bucket     = aws_s3_bucket.loadbalancer_dns_names.id
-  source     = "/tmp/loadbalancer-dns-names-nginx.txt"
+  source     = "./loadbalancer-dns-names-nginx.txt"
 }
 
 resource "aws_s3_bucket_object" "lb_dns_name_app" {
   key        = "app-dns-name"
   bucket     = aws_s3_bucket.loadbalancer_dns_names.id
-  source     = "/tmp/loadbalancer-dns-names-app.txt"
+  source     = "./loadbalancer-dns-names-app.txt"
 }
