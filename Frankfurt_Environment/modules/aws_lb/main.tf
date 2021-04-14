@@ -42,7 +42,7 @@ resource "aws_lb" "lb" {
 
 resource "aws_lb_target_group" "tg" {
   name        = var.instance.name
-  port        = 80
+  port        = var.instance.ports.port
   protocol    = var.instance.ports.protocol
   vpc_id      = data.aws_security_groups.selected.vpc_ids[0]
   target_type = "instance"
@@ -54,7 +54,7 @@ resource "aws_lb_target_group" "tg" {
 
 resource "aws_lb_listener" "listener" {
   load_balancer_arn  = element(aws_lb.lb.*.arn,0)
-  port = var.instance.ports.port
+  port = 80
   protocol = var.instance.ports.protocol
   default_action {
     target_group_arn = element(aws_lb_target_group.tg.*.arn, 0)
