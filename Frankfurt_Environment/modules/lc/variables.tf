@@ -4,6 +4,9 @@ variable "region" {
 variable "default_tags" {
 }
 
+variable "iam_instance_profile" {
+}
+
 variable "instance" {
   type = object({
     type                        = string

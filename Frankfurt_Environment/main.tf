@@ -115,10 +115,11 @@ locals {
   lc_nginx = [ for item in local.lc_cats : item if item.category == "nginx" ]
 }
 module "lc_nginx" {
-  source           = "./modules/lc/"
-  instance         = local.lc_nginx[0]
-  region           = var.aws_region
-  default_tags     = var.default_tags
+  source               = "./modules/lc/"
+  instance             = local.lc_nginx[0]
+  region               = var.aws_region
+  default_tags         = var.default_tags
+  iam_instance_profile = module.ec2_vpn.s3_access_profile
 }
 output "lc_nginx" {
   value = module.lc_nginx
@@ -132,6 +133,7 @@ module "lc_app" {
   instance         = local.lc_app[0]
   region           = var.aws_region
   default_tags     = var.default_tags
+  iam_instance_profile = module.ec2_vpn.s3_access_profile
 }
 output "lc_app" {
   value = module.lc_app

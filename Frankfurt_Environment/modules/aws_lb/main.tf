@@ -63,13 +63,9 @@ resource "aws_lb_listener" "listener" {
 }
 
 resource "local_file" "nginx" {
+  count       = var.instance.name == "nginx" ? 1 : 0
   content     = aws_lb.lb.dns_name
-  filename    =  "/tmp/loadbalancer-dns-names-nginx.txt"
-}
-
-resource "local_file" "app" {
-  content     = aws_lb.lb.dns_name
-  filename    =  "/tmp/loadbalancer-dns-names-app.txt"
+  filename    =  "${path.module}/loadbalancer-dns-names-nginx.txt"
 }
 
 resource "aws_s3_bucket" "loadbalancer_dns_names" {
@@ -78,13 +74,8 @@ resource "aws_s3_bucket" "loadbalancer_dns_names" {
 }
 
 resource "aws_s3_bucket_object" "lb_dns_name_nginx" {
+  count       = var.instance.name == "nginx" ? 1 : 0
   key        = "nginx-dns-name"
   bucket     = aws_s3_bucket.loadbalancer_dns_names.id
-  source     = "/tmp/loadbalancer-dns-names-app.txt"
-}
-
-resource "aws_s3_bucket_object" "lb_dns_name_app" {
-  key        = "app-dns-name"
-  bucket     = aws_s3_bucket.loadbalancer_dns_names.id
-  source     = "/tmp/loadbalancer-dns-names-app.txt"
+  source     = local_file.nginx[0].filename
 }

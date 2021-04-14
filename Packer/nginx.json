@@ -20,13 +20,18 @@
          "type":"shell",
          "inline":[
             "sudo apt-get update -y",
-            "sudo apt-get install -y nginx"
+            "sudo apt-get install -y nginx awscli"
          ]
       },
       {
          "type": "file",
          "source": "./nginx-conf/nginx.conf",
          "destination": "/tmp/nginx.conf"
+       },
+       {
+         "type": "file",
+         "source": "./nginx-conf/get_dns_name.sh",
+         "destination": "/home/ubuntu/get_dns_name.sh"
        },
        {
          "type":"shell",
