@@ -29,8 +29,6 @@ output "security_group_rules" {
   value = module.sg_rule.ingress
 }
 
-
-
 locals {
   ec2_vpn = [ for item in local.cats : item if item.category == "vpn" ]
 }
@@ -94,7 +92,7 @@ module "lb_nginx" {
   default_tags     = var.default_tags
 }
 output "lb_nginx" {
-  value = module.lb_nginx
+  value = module.lb_nginx.dns_name
 }
 
 locals {
@@ -107,7 +105,7 @@ module "lb_app" {
   default_tags     = var.default_tags
 }
 output "lb_app" {
-  value = module.lb_app
+  value = module.lb_app.dns_name
 }
 
 
@@ -122,7 +120,7 @@ module "lc_nginx" {
   iam_instance_profile = module.ec2_vpn.s3_access_profile
 }
 output "lc_nginx" {
-  value = module.lc_nginx
+  value = module.lc_nginx.name
 }
 
 locals {
@@ -136,7 +134,7 @@ module "lc_app" {
   iam_instance_profile = module.ec2_vpn.s3_access_profile
 }
 output "lc_app" {
-  value = module.lc_app
+  value = module.lc_app.name
 }
 
 locals {

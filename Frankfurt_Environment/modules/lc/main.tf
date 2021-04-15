@@ -29,5 +29,5 @@ resource "aws_launch_configuration" "lc" {
   associate_public_ip_address = var.instance.associate_public_ip_address
   enable_monitoring           = var.instance.enable_monitoring
   security_groups             = [data.aws_security_group.lb_sg.id]
-  user_data                   = file("../Ansible/get_dns_name.sh") == var.instance.name == "nginx" ? file("../Ansible/get_dns_name.sh") : null
+  user_data                   = var.instance.name == "nginx" ? file("../Ansible/get_dns_name.sh") : " "
 }

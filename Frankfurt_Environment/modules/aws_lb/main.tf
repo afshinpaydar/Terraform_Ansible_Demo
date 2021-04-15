@@ -29,8 +29,8 @@ resource "aws_lb" "lb" {
   name               = var.instance.name
   subnets            = [for s in data.aws_subnet.selected : s.id]
   internal           = var.instance.internal
-  security_groups    = [data.aws_security_group.lb_sg.id] == var.instance.internal ? [data.aws_security_group.lb_sg.id] : null
   load_balancer_type = var.instance.load_balancer_type
+  security_groups    = var.instance.name == "nginx" ? [data.aws_security_group.lb_sg.id] : null
   idle_timeout       = var.instance.idle_timeout
   tags        = merge(
     var.instance.tags,
@@ -62,20 +62,21 @@ resource "aws_lb_listener" "listener" {
   }
 }
 
-resource "local_file" "nginx" {
-  count       = var.instance.name == "nginx" ? 1 : 0
-  content     = aws_lb.lb.dns_name
-  filename    =  "${path.module}/loadbalancer-dns-names-nginx.txt"
+resource "local_file" "app" {
+  count          = var.instance.name == "app" ? 1 : 0
+  content        = aws_lb.lb.dns_name
+  filename       =  "${path.module}/loadbalancer-dns-names-app.txt"
 }
 
 resource "aws_s3_bucket" "loadbalancer_dns_names" {
-  bucket   = "frankfurt-loadbalancer-dns-names"
-  acl      = "private"
+  bucket         = "frankfurt-loadbalancer-dns-names"
+  acl            = "private"
+  force_destroy  = true
 }
 
-resource "aws_s3_bucket_object" "lb_dns_name_nginx" {
-  count       = var.instance.name == "nginx" ? 1 : 0
-  key        = "nginx-dns-name"
-  bucket     = aws_s3_bucket.loadbalancer_dns_names.id
-  source     = local_file.nginx[0].filename
+resource "aws_s3_bucket_object" "lb_dns_name_app" {
+  count       = var.instance.name == "app" ? 1 : 0
+  key         = "app-dns-name"
+  bucket      = aws_s3_bucket.loadbalancer_dns_names.id
+  source      = local_file.app[0].filename
 }
