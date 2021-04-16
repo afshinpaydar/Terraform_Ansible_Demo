@@ -42,7 +42,7 @@ objects = [
     {
         type                        = "ec2",
         category                    = "vpn",
-        count                       = 1,
+        count                       = 0,
         ami                         = "ami-013f17f36f8b1fefb",
         private_ip                  = ["10.10.0.100"],
         instance_type               = "t2.micro",
@@ -63,69 +63,15 @@ objects = [
     },
     {
         type                        = "db",
-        name                        = "mongodb01",
+        name                        = "mongodb",
         ami                         = "ami-042e8287309f5df03",
-        count                       = 1,
-        private_ip                  = "10.10.0.200",
+        count                       = 3,
+        private_ip                  = ["10.10.0.200", "10.10.16.201", "10.10.32.202"],
         instance_type               = "t2.micro",
         key_name                    = "terraform",
         monitoring                  = false,
         vpc_security_group_name     = ["frankfurt-sg"],
-        subnet_name                 = "frankfurt-subnet-1",
-        environment                 = "frankfurt",
-        associate_eip_address       = false,
-        associate_public_ip_address = true,
-        disable_api_termination     = false,
-        ebs_optimized               = true,
-        tags                        = {},
-        root_block_device           = {
-            volume_type = "gp2",
-            volume_size = 8
-        },
-        ebs_block_device            = {
-          device_name = "/dev/xvdf",
-          volume_size = 10,
-          volume_type = "gp2"
-        }
-    },
-    {
-        type                        = "db",
-        name                        = "mongodb02",
-        ami                         = "ami-042e8287309f5df03",
-        count                       = 1,
-        private_ip                  = "10.10.16.201",
-        instance_type               = "t2.micro",
-        key_name                    = "terraform",
-        monitoring                  = false,
-        vpc_security_group_name     = ["frankfurt-sg"],
-        subnet_name                 = "frankfurt-subnet-2",
-        environment                 = "frankfurt",
-        associate_eip_address       = false,
-        associate_public_ip_address = true,
-        disable_api_termination     = false,
-        ebs_optimized               = true,
-        tags                        = {},
-        root_block_device           = {
-            volume_type = "gp2",
-            volume_size = 8
-        },
-        ebs_block_device            = {
-          device_name = "/dev/xvdf",
-          volume_size = 10,
-          volume_type = "gp2"
-        }
-    },
-    {
-        type                        = "db",
-        name                        = "mongodb03",
-        ami                         = "ami-042e8287309f5df03",
-        count                       = 1,
-        private_ip                  = "10.10.32.202",
-        instance_type               = "t2.micro",
-        key_name                    = "terraform",
-        monitoring                  = false,
-        vpc_security_group_name     = ["frankfurt-sg"],
-        subnet_name                 = "frankfurt-subnet-3",
+        subnet_name                 = ["frankfurt-subnet-1", "frankfurt-subnet-2", "frankfurt-subnet-3"],
         environment                 = "frankfurt",
         associate_eip_address       = false,
         associate_public_ip_address = true,
@@ -207,8 +153,8 @@ objects = [
         category                    = "nginx",
         name                        = "nginx",
         vpc_zone_identifier         = ["subnet-0a5157ab3f678608e", "subnet-0ac1eb29027382b06", "subnet-0df75ca162aa2be7a"],
-        min_size                    = 1,
-        max_size                    = 1,
+        min_size                    = 0,
+        max_size                    = 0,
         timeout_delete              = "10m"
         environment                 = "frankfurt"
     },
@@ -217,8 +163,8 @@ objects = [
         category                    = "app",
         name                        = "app",
         vpc_zone_identifier         = ["subnet-0a5157ab3f678608e", "subnet-0ac1eb29027382b06", "subnet-0df75ca162aa2be7a"],
-        min_size                    = 2,
-        max_size                    = 3,
+        min_size                    = 0,
+        max_size                    = 0,
         timeout_delete              = "10m"
         environment                 = "frankfurt"
     },

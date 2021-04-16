@@ -44,42 +44,16 @@ output "ec2_vpn" {
 }
 
 locals {
-  mongo_db_01 = [ for item in local.db_cats : item if item.name == "mongodb01" ]
+  mongo_db = [ for item in local.db_cats : item if item.name == "mongodb" ]
 }
-module "mongodb_1" {
+module "mongodb" {
   source           = "./modules/mongodb/"
-  instance         = local.mongo_db_01[0]
+  instance         = local.mongo_db[0]
   region           = var.aws_region
   default_tags     = var.default_tags
 }
 output "mongodb_1" {
-  value = module.mongodb_1
-}
-
-locals {
-  mongo_db_02 = [ for item in local.db_cats : item if item.name == "mongodb02" ]
-}
-module "mongodb_2" {
-  source           = "./modules/mongodb/"
-  instance         = local.mongo_db_02[0]
-  region           = var.aws_region
-  default_tags     = var.default_tags
-}
-output "mongodb_2" {
-  value = module.mongodb_2
-}
-
-locals {
-  mongo_db_03 = [ for item in local.db_cats : item if item.name == "mongodb03" ]
-}
-module "mongodb_3" {
-  source           = "./modules/mongodb/"
-  instance         = local.mongo_db_03[0]
-  region           = var.aws_region
-  default_tags     = var.default_tags
-}
-output "mongodb_3" {
-  value = module.mongodb_3
+  value = module.mongodb
 }
 
 locals {
@@ -107,7 +81,6 @@ module "lb_app" {
 output "lb_app" {
   value = module.lb_app.dns_name
 }
-
 
 locals {
   lc_nginx = [ for item in local.lc_cats : item if item.category == "nginx" ]
