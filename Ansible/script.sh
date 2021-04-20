@@ -3,7 +3,6 @@
 sudo apt-add-repository ppa:ansible/ansible -y
 sudo apt update -y
 sudo apt install awscli git ansible -y 
-sudo cp /home/ubuntu/Terraform_Ansible_Demo/Ansible/ansible.cfg /etc/ansible/
 aws s3 cp s3://ssh-key-frankfurt/terraform.pem ~/.ssh/
 chmod 600 ~/.ssh/terraform.pem
 

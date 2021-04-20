@@ -2,6 +2,7 @@
 *.tfstate*
 _testmain.go
 .DS_Store*
+node_modules
 .SSH_KEY/terraform.pem*
 terraform.pem*
 .SSH_KEY/*

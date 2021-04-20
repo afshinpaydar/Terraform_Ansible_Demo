@@ -2,7 +2,7 @@
 
 case "$1" in 
 start)
-   docker run -d -p 3000:3000 --name node-app phantasm/node-app.nodejs:latest
+   docker run -d -p 3000:3000 --name node-app phantasm/node-web-app:latest
    echo $!>/run/node-app-service.pid
    ;;
 stop)
