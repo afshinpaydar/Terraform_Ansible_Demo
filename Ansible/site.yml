@@ -39,7 +39,7 @@
     mongodb_pymongo_pip_version: 3.7.1
 
     # Account configuration
-    mongodb_root_account: root
+    mongodb_root_account: admin
     mongodb_root_password: "p@ssw0rd"
 
     mongodb_admin_account: dbadmin
@@ -47,7 +47,6 @@
 
     mongodb_backup_account: backupadmin
     mongodb_backup_password: "p@ssw0rd"
-    #ansible_default_ipv4: 192.168.33.1
 
   roles:
     - mongodb-role
