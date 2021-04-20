@@ -1,5 +1,5 @@
 ---
-# tasks file for mongodb-replicaset
+# tasks file for mongodb-role
 
 - include: install.mongodb.yml
 

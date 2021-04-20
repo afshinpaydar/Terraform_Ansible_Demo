@@ -1,6 +1,4 @@
 ---
-# handlers file for mongodb-replicaset
-
 - name: systemd reload
   systemd: 
     daemon_reload: yes

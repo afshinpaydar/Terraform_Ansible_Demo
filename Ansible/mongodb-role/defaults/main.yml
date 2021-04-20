@@ -6,10 +6,7 @@ mongodb_install_version_major: 4
 mongodb_install_version_minor: 4
 mongodb_install_version_patch: "*"
 
-
-# Ubuntu
 mongodb_enable_apt_repository: true
-
 
 # MongoDB Configuration
 mongodb_conf_file: /etc/mongodb/mongod.conf
@@ -36,7 +33,7 @@ mongodb_replication_set_name: rs01
 mongodb_pymongo_pip_version: 3.7.1
 
 # Account configuration
-mongodb_root_account: root
+mongodb_root_account: admin
 mongodb_root_password: "p@ssw0rd"
 
 mongodb_admin_account: dbadmin
