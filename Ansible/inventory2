@@ -1,0 +1,30 @@
+all:
+    hosts:
+    children:
+        mongo:
+            hosts:
+                mongo-master:
+                    host_name: mongo-master
+                    host_ip: "10.10.0.200"
+                mongo-node1:
+                    host_name: mongo-node1
+                    host_ip: "10.10.16.201"
+                mongo-node2:
+                    host_name: mongo-node2
+                    host_ip: "10.10.32.202"
+        master:
+            hosts:
+                mongo-master:
+                  host_name: mongo-master
+                  host_ip: "10.10.0.200"
+                  
+        replicas:
+            hosts:
+                mongo-node1:
+                    priority: 1
+                mongo-node2:
+                    priority: 0
+        arbiter:
+            hosts:
+              mongo-node2:
+                priority: 0

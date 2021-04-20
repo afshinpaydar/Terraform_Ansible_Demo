@@ -1,0 +1,29 @@
+---
+# tasks file for mongodb-replicaset
+
+- include: install.mongodb.yml
+
+- include: config.hosts.yml
+
+- include: config.directories.yml
+
+- include: config.init_service.yml
+
+
+- include: config.systemd_units.yml
+
+- include: config.pymongo.yml
+
+- include: config.mongo_users.yml
+
+- include: config.mongo_standalone_service.yml
+  when: not mongodb_replication_enabled
+
+- include: config.replication_keyfile.yml
+  when: mongodb_replication_enabled
+
+- include: config.mongo_reple_service.yml
+  when: mongodb_replication_enabled
+
+- include: config.replication.yml
+  when: mongodb_replication_enabled

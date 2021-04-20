@@ -42,7 +42,7 @@ objects = [
     {
         type                        = "ec2",
         category                    = "vpn",
-        count                       = 0,
+        count                       = 1,
         ami                         = "ami-013f17f36f8b1fefb",
         private_ip                  = ["10.10.0.100"],
         instance_type               = "t2.micro",
@@ -64,7 +64,7 @@ objects = [
     {
         type                        = "db",
         name                        = "mongodb",
-        ami                         = "ami-042e8287309f5df03",
+        ami                         = "ami-013f17f36f8b1fefb",
         count                       = 3,
         private_ip                  = ["10.10.0.200", "10.10.16.201", "10.10.32.202"],
         instance_type               = "t2.micro",
@@ -84,7 +84,7 @@ objects = [
         },
         ebs_block_device            = {
           device_name = "/dev/xvdf",
-          volume_size = 10,
+          volume_size = 8,
           volume_type = "gp2"
         }
     },
@@ -153,8 +153,8 @@ objects = [
         category                    = "nginx",
         name                        = "nginx",
         vpc_zone_identifier         = ["subnet-0a5157ab3f678608e", "subnet-0ac1eb29027382b06", "subnet-0df75ca162aa2be7a"],
-        min_size                    = 0,
-        max_size                    = 0,
+        min_size                    = 1,
+        max_size                    = 1,
         timeout_delete              = "10m"
         environment                 = "frankfurt"
     },
@@ -163,8 +163,8 @@ objects = [
         category                    = "app",
         name                        = "app",
         vpc_zone_identifier         = ["subnet-0a5157ab3f678608e", "subnet-0ac1eb29027382b06", "subnet-0df75ca162aa2be7a"],
-        min_size                    = 0,
-        max_size                    = 0,
+        min_size                    = 2,
+        max_size                    = 3,
         timeout_delete              = "10m"
         environment                 = "frankfurt"
     },

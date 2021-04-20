@@ -1,0 +1,25 @@
+galaxy_info:
+  role_name: mongodb
+  author: iquzart
+  description: Install MongoDB standalone or Replicaset
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 8
+        - 7
+    - name: Ubuntu
+      versions:
+        - Focal
+        - Disco
+        - Bionic
+  galaxy_tags:
+    - mongodb
+    - replicaset
+    - database
+    - nosql
+    - mongo
+    - cluster
+    - standalone
+dependencies: []
