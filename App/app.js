@@ -9,13 +9,18 @@ var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const DB_USER = 'admin';
 const PASSWORD = encodeURIComponent('p@ssw0rd');
-mongoose
-  .connect(
-    `mongodb://${DB_USER}:${PASSWORD}@10.10.0.200:27017,10.10.16.201:27017,10.10.32.202:27017/app?replicaSet=rs01`,
-    { useNewUrlParser: true, authSource:'admin' }
-  )
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+
+var mongoUrl = `mongodb://${DB_USER}:${PASSWORD}@10.10.0.200:27017,10.10.16.201:27017,10.10.32.202:27017/app?replicaSet=rs01`
+
+var connectWithRetry = function() {
+return mongoose.connect(mongoUrl, { useNewUrlParser: true, authSource:'admin'}, function(err) {
+    if (err) {
+    console.error('Failed to connect to mongo on startup - retrying in 5 sec', err);
+    setTimeout(connectWithRetry, 5000);
+    }
+});
+};
+connectWithRetry();
 
 var nameSchema = new mongoose.Schema({
     firstName: String,
