@@ -153,8 +153,8 @@ objects = [
         category                    = "nginx",
         name                        = "nginx",
         vpc_zone_identifier         = ["subnet-0a5157ab3f678608e", "subnet-0ac1eb29027382b06", "subnet-0df75ca162aa2be7a"],
-        min_size                    = 1,
-        max_size                    = 1,
+        min_size                    = 0,
+        max_size                    = 0,
         timeout_delete              = "10m"
         environment                 = "frankfurt"
     },
@@ -163,8 +163,8 @@ objects = [
         category                    = "app",
         name                        = "app",
         vpc_zone_identifier         = ["subnet-0a5157ab3f678608e", "subnet-0ac1eb29027382b06", "subnet-0df75ca162aa2be7a"],
-        min_size                    = 2,
-        max_size                    = 3,
+        min_size                    = 0,
+        max_size                    = 0,
         timeout_delete              = "10m"
         environment                 = "frankfurt"
     },

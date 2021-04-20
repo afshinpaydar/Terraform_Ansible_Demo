@@ -163,17 +163,17 @@ resource "aws_instance" "ec2" {
     }
   }
 
-  # provisioner "remote-exec" {
-  #   inline = ["eval $(ssh-agent -s)", 
-  #     "ssh-add ~/.ssh/terraform.pem",
-  #     "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  -i inventory site.yml"]
-  #   connection {
-  #     host        = self.public_ip
-  #     type        = "ssh"
-  #     user        = "ubuntu"
-  #     private_key = file(var.private_key)
-  #   }
-  # }
+  provisioner "remote-exec" {
+    inline = ["eval $(ssh-agent -s)", 
+      "ssh-add ~/.ssh/terraform.pem",
+      "cd /home/ubuntu/Terraform_Ansible_Demo/Ansible && ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  -i inventory site.yml"]
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(var.private_key)
+    }
+  }
 
 }
 
