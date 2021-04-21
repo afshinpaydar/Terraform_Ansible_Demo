@@ -101,5 +101,3 @@ $ cd Frankfurt_Environment
 $ terraform destroy
 ```
 
-###  Ansible galaxy:
-- https://github.com/UnderGreen/ansible-role-mongodb
